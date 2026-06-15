@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="暖心建議">
+
+<meta name="theme-color" content="#F9F6F0">
+
+<title>職能治療暖心建議</title>
+<style>
+    /* 全局樣式設定：日式療癒風、溫暖大地色調 */
+    body {
+        background-color: #F9F6F0; 
+        color: #5C5446; 
+        font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        margin: 0;
+        /* 支援手機瀏海螢幕的安全區域 (Safe Area) */
+        padding: calc(20px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom)) 20px;
+        display: flex;
+        justify-content: center;
+        line-height: 1.8;
+        /* 移除手機端點擊時的灰色高光，讓操作更像原生APP */
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 儀表板主要容器 */
+    .dashboard {
+        background-color: #FFFFFF;
+        border-radius: 24px;
+        width: 100%;
+        max-width: 800px;
+        padding: 30px 20px; 
+        box-shadow: 0 12px 35px rgba(92, 84, 70, 0.08); 
+        box-sizing: border-box;
+    }
+
+    /* 標題群組設定：讓文字分行並置中 */
+    .title-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1.3;
+    }
+
+    /* 主標題 */
+    h1.main-title {
+        text-align: center;
+        color: #7B8B6F; 
+        margin-top: 0;
+        margin-bottom: 30px;
+        font-size: 1.8em;
+        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px; 
+    }
+
+    /* 莫蘭迪粉紅愛心 */
+    .morandi-heart {
+        color: #DDA7A5; 
+        font-size: 0.9em;
+    }
+
+    /* 溫柔提醒區塊 (置中看板) */
+    .intro-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 35px;
+    }
+
+    /* 獨立的溫柔提醒方塊 */
+    .reminder-box {
+        background: #FFFFFF;
+        border: 3px solid #5C5446;
+        border-radius: 20px;
+        padding: 20px 24px;
+        max-width: 600px;
+        font-size: 1em;
+        color: #5C5446;
+        font-weight: bold;
+        line-height: 1.8; /* 確保所有文字行距一致 */
+        box-shadow: 2px 4px 0px rgba(92, 84, 70, 0.1);
+        text-align: left;
+    }
+
+    .reminder-box strong {
+        color: #7B8B6F;
+    }
+
+    /* 副標題與下拉選單區塊 */
+    .section-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #7B8B6F;
+        margin-bottom: 15px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .view-selector-container {
+        background-color: #FAF8F5;
+        padding: 20px 15px;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 25px;
+        border: 1px dashed #D5CFC4;
+    }
+
+    /* 統一 iOS Safari 與 Android 下拉選單外觀 */
+    .view-selector-container select {
+        background-color: #FFFFFF;
+        color: #5C5446;
+        border: 2px solid #EAE6DD;
+        padding: 12px 40px 12px 20px; 
+        border-radius: 30px;
+        font-size: 1.05em;
+        outline: none;
+        cursor: pointer;
+        width: 100%;
+        max-width: 350px;
+        transition: border-color 0.3s;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        
+        /* 隱藏系統預設樣式，套用自訂 SVG 箭頭 */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237B8B6F' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 16px;
+    }
+
+    .view-selector-container select:focus {
+        border-color: #7B8B6F;
+    }
+
+    /* 內容面板區塊 */
+    .panel {
+        display: none; 
+        background-color: #FAF8F5; 
+        padding: 25px 20px;
+        border-radius: 16px;
+    }
+
+    .panel.active {
+        display: block; 
+        animation: fadeIn 0.4s ease-out;
+    }
+
+    .panel h3 {
+        margin-top: 0;
+        color: #7B8B6F;
+        border-bottom: 2px dotted #D5CFC4;
+        padding-bottom: 12px;
+        font-size: 1.3em;
+        margin-bottom: 20px;
+    }
+
+    /* 面板內分類小標題 */
+    .panel .category-subtitle {
+        font-size: 1.05em;
+        font-weight: bold;
+        color: #A38068; 
+        margin-top: 20px;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .panel ul {
+        padding-left: 5px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        list-style-type: none; 
+    }
+
+    .panel li {
+        margin-bottom: 10px;
+        position: relative;
+        padding-left: 24px;
+        font-size: 0.95em;
+    }
+
+    .panel li::before {
+        content: '🐾';
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 0.9em;
+    }
+
+    .panel li strong {
+        color: #5C5446;
+    }
+
+    /* 淡入動畫 */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+
+<div class="dashboard">
+    <h1 class="main-title">
+        <span class="morandi-heart">♥</span> 
+        <div class="title-group">
+            <span>職能治療</span>
+            <span>暖心建議</span>
+        </div>
+        <span class="morandi-heart">♥</span>
+    </h1>
+
+    <div class="intro-section">
+        <div class="reminder-box">
+            <strong>溫柔提醒：</strong>生活中感到疲累或有些喘，都是很常見的喔！<br>
+            如果希望能維持好的生活品質，在配合疾病管理、避免心臟過度負荷的同時，我們也可以學習調整做事方式與生活型態，就能兼顧健康與生活品質！
+        </div>
+    </div>
+
+    <div class="view-selector-container">
+        <div class="section-title">
+            <span>✨</span>
+            <div class="title-group">
+                <span>溫柔照顧自己的</span>
+                <span>日常處方</span>
+            </div>
+            <span>✨</span>
+        </div>
+        
+        <select id="viewSelect">
+            <option value="panel1" selected>🏃 活力養成 (動起來 ＆ 放輕鬆)</option>
+            <option value="panel2">🔋 輕鬆省能 (讓生活更輕盈)</option>
+            <option value="panel3">🌬️ 溫柔呼吸 (穩定身心小魔法)</option>
+            <option value="panel4">🌱 心靈花園 (情緒照顧)</option>
+            <option value="panel5">🛡️ 術後防護 (胸骨切開術專區)</option>
+        </select>
+    </div>
+
+    <div id="panel1" class="panel active">
+        <h3>🏃 活力養成</h3>
+        <div class="category-subtitle">🌱 動起來</div>
+        <ul>
+            <li><strong>活動量進度：</strong>長期願景是每日至少 6000 步！今天先從 500 步起步，循序漸進。</li>
+            <li><strong>「刻意」的小任務：</strong>自己倒水、收衣物，這些小動作都是在幫身體注入活力喔！</li>
+        </ul>
+        <div class="category-subtitle">☁️ 放輕鬆</div>
+        <ul>
+            <li>精力有限，允許自己放鬆心情，降低要求，做「重要」且「必要」的事。</li>
+            <li>每天規劃 2-3 件必要的任務就好。</li>
+        </ul>
+    </div>
+
+    <div id="panel2" class="panel">
+        <h3>🔋 輕鬆省能</h3>
+        <div class="category-subtitle">📝 1. 溫柔小計畫</div>
+        <ul>
+            <li><strong>留點空白：</strong> 任務間保留休息時間，給自己喘息空間。</li>
+            <li><strong>順路一起做：</strong> 同區域的事一次輕輕完成，減少走動。</li>
+            <li><strong>分段慢慢來：</strong> 體力不夠時，把大任務拆小分次完成。</li>
+        </ul>
+        <div class="category-subtitle">⭐ 2. 留下最重要的事</div>
+        <ul>
+            <li><strong>優先照顧：</strong> 先做最重要且緊急的事，其他都可以等。</li>
+            <li><strong>挑好時機：</strong> 最費力的事，留給體力最好時做。</li>
+            <li><strong>學會放下：</strong> 刪去不必要且耗能的活動，保留體力。</li>
+        </ul>
+        <div class="category-subtitle">🛋️ 3. 找尋舒服的姿勢</div>
+        <ul>
+            <li><strong>友善高度：</strong> 物品放在肩膀到臀部之間，減少彎腰。</li>
+            <li><strong>坐著也很好：</strong> 站累了就改成坐著做事，舒服最重要。</li>
+            <li><strong>善用小幫手：</strong> 多用省力工具，讓生活更輕盈。</li>
+        </ul>
+        <div class="category-subtitle">🐢 4. 享受慢慢來的節奏</div>
+        <ul>
+            <li><strong>慢活時光：</strong> 動作越快越耗能，請溫柔允許自己多花點時間完成。</li>
+            <li><strong>心靈小語：</strong> 在心裡默念「放輕鬆、慢慢做」。</li>
+        </ul>
+        <div class="category-subtitle">⏸️ 5. 聽聽身體的聲音</div>
+        <ul>
+            <li><strong>適時喊停：</strong> 活動中途暫停，感受身體是否疲累或心跳偏快。</li>
+            <li><strong>深呼吸安撫：</strong> 透過調節呼吸來降低心率，安撫緊張情緒。</li>
+        </ul>
+    </div>
+
+    <div id="panel3" class="panel">
+        <h3>🌬️ 溫柔呼吸</h3>
+        <div class="category-subtitle">🕯️ 1. 噘嘴式呼吸：吹蠟燭小魔法</div>
+        <ul>
+            <li><strong>簡單步驟：</strong> 用鼻子輕輕吸氣，然後把嘴巴像吹蠟燭一樣嘟起來，慢慢把氣吐出去。 記得喔，吐氣的時間要比吸氣長一點（大約是 1:2 或 1:3 的比例）。</li>
+            <li><strong>散步好節奏：</strong> 走路時也可以邊走邊練習！ 試著「吸氣走 3 步，吐氣走 6 步」，跟著步伐找回平靜的節奏。</li>
+            <li><strong>用力不憋氣：</strong> 遇到需要比較費力的事情時，請在「用力前先吸氣」，然後在「用力時慢慢吐氣」。 千萬別憋著氣用力，讓呼吸保護你喔！</li>
+        </ul>
+        <div class="category-subtitle">🎈 2. 腹式呼吸：肚子裡的深呼吸氣球</div>
+        <ul>
+            <li><strong>簡單步驟：</strong> 想像肚子裡有一顆小氣球。 吸氣時，感覺肚子像氣球一樣慢慢鼓起來；吐氣時，肚子再輕輕地消下去。</li>
+            <li><strong>魔法加倍：</strong> 如果把「腹式呼吸」和前面的「吹蠟燭小魔法（噘嘴式呼吸）」搭配在一起練習，穩定身心的效果會更好喔！</li>
+        </ul>
+    </div>
+
+    <div id="panel4" class="panel">
+        <h3>🌱 心靈花園</h3>
+        <div class="category-subtitle">🌧️ 1. 情緒的溫柔提醒</div>
+        <ul>
+            <li><strong>心靈與身體的連結：</strong> 當我們感到焦急、壓力大或情緒過於激動時，很容易讓血壓悄悄升高、心跳變快。 為了保護我們珍貴的心血管健康，學會溫柔地照顧情緒是很重要的喔！</li>
+        </ul>
+        <div class="category-subtitle">🌷 2. 「覺察」是療癒的關鍵</div>
+        <ul>
+            <li><strong>接納真實的自己：</strong> 有情緒是再正常不過的事了！ 請試著學習接受當下產生的感受，讓這些情緒得以自然地抒發與流動，給心靈一個溫暖的擁抱。</li>
+            <li><strong>靜心小反思：</strong> 等心情冷靜下來後，可以溫柔地自我探討情緒產生的原因。 想一想，在什麼樣的情況下自己會感到比較平靜呢？ 又可以為自己做些什麼來找回平穩的心情？</li>
+            <li><strong>療癒的文字魔法：</strong> 當腦海被自動產生的想法佔據時，試著停下來思考：是不是還有其他更具建設性、更公正且有益的想法呢？ 把那些溫暖的想法輕輕地書寫下來，文字會帶給您力量。</li>
+            <li><strong>一步步的成長練習：</strong> 慢慢來，不用急。 隨著一次次的練習，您會發現下次遇到相同的情境時，自己會變得更有力量，也比較能平靜地面對了喔！</li>
+        </ul>
+    </div>
+
+    <div id="panel5" class="panel">
+        <h3>🛡️ 術後防護 (胸骨切開術)</h3>
+        
+        <div class="category-subtitle">💡 基本說明：管內移動小秘訣</div>
+        <ul>
+            <li><strong>抱緊處理：</strong> 想像手臂在管子裡！ 需要出力的動作（如床上移動），請把<strong>上臂夾緊貼近身體</strong>，減少拉扯胸骨。 不需出力的動作（如摸頭頂）則可放輕鬆。</li>
+            <li><strong>溫和不逞強：</strong> 避免過度用力或引發劇痛。</li>
+            <li><strong>注意咔啦聲：</strong> 若聽到胸骨發出「咔啦」聲（移位或斷裂感），請立刻避開該動作！ 若術後3個月仍有聲音，請務必諮詢醫師。</li>
+        </ul>
+
+        <div class="category-subtitle">🛏️ 床上活動：安全轉換姿勢</div>
+        <ul>
+            <li><strong>往上挪動：</strong> 雙膝彎曲腳踩床，用腿蹬床將身體往上移（記得用力時要吐氣喔）。</li>
+            <li><strong>圓木翻身：</strong> 膝蓋彎曲，像圓木一樣「整體」翻向側邊。</li>
+            <li><strong>側躺起床：</strong> 側躺後雙腳先垂下床緣，手肘貼緊身體撐起上半身坐直。（可在屁股下墊摺疊床單幫忙滑動）。</li>
+            <li><strong>照顧者請注意：</strong> 協助起身時<strong>絕對不能拉扯手臂</strong>！ 若行走輔具不好控制，照顧者「徒手拉著褲頭或腰帶協助起身或行走」會更安全喔。</li>
+        </ul>
+
+        <div class="category-subtitle">🏠 日常活動：生活小守則</div>
+        <ul>
+            <li><strong>自己來最棒：</strong> 鼓勵自己梳洗打理。</li>
+            <li><strong>重活請代勞：</strong> 提重物、抱小孩或寵物、推重門、吸塵或搬傢俱，請直接交給家人處理！</li>
+            <li><strong>呼吸不憋氣：</strong> 彎腰或上廁所時，搭配深呼吸，千萬別憋氣用力！</li>
+            <li><strong>乘車安全：</strong> 務必繫安全帶，並盡量<strong>坐後座</strong>避開安全氣囊。 暫時先別自己開車喔。</li>
+        </ul>
+
+        <div class="category-subtitle">🔋 教導節能技巧：省力小法寶</div>
+        <ul>
+            <li><strong>善用輔具：</strong> 準備取物夾、穿衣棍或洗澡椅。 把椅子或馬桶「墊高」（讓屁股高於膝蓋），站起來會輕鬆非常多！</li>
+            <li><strong>改變姿勢：</strong> 例如把腳跨在另一腿上穿鞋襪，怎麼舒服省力就怎麼做。</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // 確保等整個網頁（包含 DOM）載入完成後，才綁定事件，這是 Safari 與所有現代瀏覽器最穩定、相容性最高的寫法
+    document.addEventListener("DOMContentLoaded", function() {
+        var viewSelect = document.getElementById("viewSelect");
+        
+        // 監聽下拉選單的改變事件 (相容 Safari 及各系統)
+        viewSelect.addEventListener("change", function() {
+            var selectedPanelId = this.value;
+            var panels = document.getElementsByClassName("panel");
+            
+            // 1. 隱藏所有面板
+            for (var i = 0; i < panels.length; i++) {
+                panels[i].classList.remove("active");
+            }
+            
+            // 2. 顯示被選取的面板
+            var activePanel = document.getElementById(selectedPanelId);
+            if (activePanel) {
+                activePanel.classList.add("active");
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
