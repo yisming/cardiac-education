@@ -36,6 +36,7 @@
         padding: 30px 20px; 
         box-shadow: 0 12px 35px rgba(92, 84, 70, 0.08); 
         box-sizing: border-box;
+        position: relative; /* 為了讓底部署名定位 */
     }
 
     /* 標題群組設定：讓文字分行並置中 */
@@ -84,7 +85,7 @@
         font-size: 1em;
         color: #5C5446;
         font-weight: bold;
-        line-height: 1.8; /* 確保所有文字行距一致 */
+        line-height: 1.8; 
         box-shadow: 2px 4px 0px rgba(92, 84, 70, 0.1);
         text-align: left;
     }
@@ -152,6 +153,7 @@
         background-color: #FAF8F5; 
         padding: 25px 20px;
         border-radius: 16px;
+        margin-bottom: 30px; /* 留給底部署名空間 */
     }
 
     .panel.active {
@@ -206,6 +208,16 @@
         color: #5C5446;
     }
 
+    /* 團隊署名樣式 */
+    .team-signature {
+        text-align: center;
+        color: #A0A0A0;
+        font-size: 0.8em;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px dashed #EAE6DD;
+    }
+
     /* 淡入動畫 */
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(8px); }
@@ -244,7 +256,7 @@
         
         <select id="viewSelect">
             <option value="panel1" selected>🏃 活力養成 (動起來 ＆ 放輕鬆)</option>
-            <option value="panel2">🔋 輕鬆省能 (讓生活更輕盈)</option>
+            <option value="panel2">🔋 省能妙方 (讓生活更輕盈)</option>
             <option value="panel3">🌬️ 溫柔呼吸 (穩定身心小魔法)</option>
             <option value="panel4">🌱 心靈花園 (情緒照顧)</option>
             <option value="panel5">🛡️ 術後防護 (胸骨切開術專區)</option>
@@ -266,17 +278,17 @@
     </div>
 
     <div id="panel2" class="panel">
-        <h3>🔋 輕鬆省能</h3>
+        <h3>🔋 省能妙方</h3>
         <div class="category-subtitle">📝 1. 溫柔小計畫</div>
         <ul>
             <li><strong>留點空白：</strong> 任務間保留休息時間，給自己喘息空間。</li>
-            <li><strong>順路一起做：</strong> 同區域的事一次輕輕完成，減少走動。</li>
-            <li><strong>分段慢慢來：</strong> 體力不夠時，把大任務拆小分次完成。</li>
+            <li><strong>順路一起做：</strong> 同區域的事一起完成，減少走動。</li>
+            <li><strong>分段慢慢來：</strong> 體力不夠時，把大任務拆解成小任務，分次完成。</li>
         </ul>
         <div class="category-subtitle">⭐ 2. 留下最重要的事</div>
         <ul>
             <li><strong>優先照顧：</strong> 先做最重要且緊急的事，其他都可以等。</li>
-            <li><strong>挑好時機：</strong> 最費力的事，留給體力最好時做。</li>
+            <li><strong>挑好時機：</strong> 最費力的事，留在體力最好時做。</li>
             <li><strong>學會放下：</strong> 刪去不必要且耗能的活動，保留體力。</li>
         </ul>
         <div class="category-subtitle">🛋️ 3. 找尋舒服的姿勢</div>
@@ -287,13 +299,13 @@
         </ul>
         <div class="category-subtitle">🐢 4. 享受慢慢來的節奏</div>
         <ul>
-            <li><strong>慢活時光：</strong> 動作越快越耗能，請溫柔允許自己多花點時間完成。</li>
+            <li><strong>慢活時光：</strong> 動作越快越耗能，允許自己多花點時間完成。</li>
             <li><strong>心靈小語：</strong> 在心裡默念「放輕鬆、慢慢做」。</li>
         </ul>
         <div class="category-subtitle">⏸️ 5. 聽聽身體的聲音</div>
         <ul>
             <li><strong>適時喊停：</strong> 活動中途暫停，感受身體是否疲累或心跳偏快。</li>
-            <li><strong>深呼吸安撫：</strong> 透過調節呼吸來降低心率，安撫緊張情緒。</li>
+            <li><strong>安撫情緒：</strong> 透過調節呼吸來降低心率，安撫緊張情緒。</li>
         </ul>
     </div>
 
@@ -322,7 +334,7 @@
         <ul>
             <li><strong>接納真實的自己：</strong> 有情緒是再正常不過的事了！ 請試著學習接受當下產生的感受，讓這些情緒得以自然地抒發與流動，給心靈一個溫暖的擁抱。</li>
             <li><strong>靜心小反思：</strong> 等心情冷靜下來後，可以溫柔地自我探討情緒產生的原因。 想一想，在什麼樣的情況下自己會感到比較平靜呢？ 又可以為自己做些什麼來找回平穩的心情？</li>
-            <li><strong>療癒的文字魔法：</strong> 當腦海被自動產生的想法佔據時，試著停下來思考：是不是還有其他更具建設性、更公正且有益的想法呢？ 把那些溫暖的想法輕輕地書寫下來，文字會帶給您力量。</li>
+            <li><strong>療癒的文字魔法：</strong> 當腦海被自動產生的想法佔據時，試著停下來思考：是不是還有其他更具建設性且有益的想法呢？ 把那些溫暖的想法輕輕地書寫下來，文字會帶給您力量。</li>
             <li><strong>一步步的成長練習：</strong> 慢慢來，不用急。 隨著一次次的練習，您會發現下次遇到相同的情境時，自己會變得更有力量，也比較能平靜地面對了喔！</li>
         </ul>
     </div>
@@ -332,7 +344,7 @@
         
         <div class="category-subtitle">💡 基本說明：管內移動小秘訣</div>
         <ul>
-            <li><strong>抱緊處理：</strong> 想像手臂在管子裡！ 需要出力的動作（如床上移動），請把<strong>上臂夾緊貼近身體</strong>，減少拉扯胸骨。 不需出力的動作（如摸頭頂）則可放輕鬆。</li>
+            <li><strong>抱緊處理：</strong> 想像上半身在管子裡！ 需要出力的動作（如床上移動），請把<strong>上臂夾緊貼近身體</strong>，減少拉扯胸骨。 不需出力的動作（如摸頭頂）則可放輕鬆。</li>
             <li><strong>溫和不逞強：</strong> 避免過度用力或引發劇痛。</li>
             <li><strong>注意咔啦聲：</strong> 若聽到胸骨發出「咔啦」聲（移位或斷裂感），請立刻避開該動作！ 若術後3個月仍有聲音，請務必諮詢醫師。</li>
         </ul>
@@ -341,7 +353,7 @@
         <ul>
             <li><strong>往上挪動：</strong> 雙膝彎曲腳踩床，用腿蹬床將身體往上移（記得用力時要吐氣喔）。</li>
             <li><strong>圓木翻身：</strong> 膝蓋彎曲，像圓木一樣「整體」翻向側邊。</li>
-            <li><strong>側躺起床：</strong> 側躺後雙腳先垂下床緣，手肘貼緊身體撐起上半身坐直。（可在屁股下墊摺疊床單幫忙滑動）。</li>
+            <li><strong>側躺起床：</strong> 側躺後雙腳先垂下床緣，手肘貼緊身體撐起上半身坐直。</li>
             <li><strong>照顧者請注意：</strong> 協助起身時<strong>絕對不能拉扯手臂</strong>！ 若行走輔具不好控制，照顧者「徒手拉著褲頭或腰帶協助起身或行走」會更安全喔。</li>
         </ul>
 
@@ -359,24 +371,25 @@
             <li><strong>改變姿勢：</strong> 例如把腳跨在另一腿上穿鞋襪，怎麼舒服省力就怎麼做。</li>
         </ul>
     </div>
+
+    <!-- 團隊署名 -->
+    <div class="team-signature">
+        台大醫院復健部職能治療技術科 心肺小組製作
+    </div>
 </div>
 
 <script>
-    // 確保等整個網頁（包含 DOM）載入完成後，才綁定事件，這是 Safari 與所有現代瀏覽器最穩定、相容性最高的寫法
     document.addEventListener("DOMContentLoaded", function() {
         var viewSelect = document.getElementById("viewSelect");
         
-        // 監聽下拉選單的改變事件 (相容 Safari 及各系統)
         viewSelect.addEventListener("change", function() {
             var selectedPanelId = this.value;
             var panels = document.getElementsByClassName("panel");
             
-            // 1. 隱藏所有面板
             for (var i = 0; i < panels.length; i++) {
                 panels[i].classList.remove("active");
             }
             
-            // 2. 顯示被選取的面板
             var activePanel = document.getElementById(selectedPanelId);
             if (activePanel) {
                 activePanel.classList.add("active");
