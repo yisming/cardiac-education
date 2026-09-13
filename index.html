@@ -208,24 +208,61 @@
         color: #5C5446;
     }
 
-    /* 團隊署名與瀏覽人次樣式 */
+    /* --- 團隊署名與瀏覽人次樣式 --- */
     .team-footer {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 12px;
+        gap: 16px;
         margin-top: 20px;
         padding-top: 25px;
         border-top: 1px dashed #EAE6DD;
     }
 
     .team-signature {
-        text-align: center;
+        display: flex;
+        align-items: center; /* 讓左側部門與右側名字群組垂直置中 */
+        justify-content: center;
         color: #8C8476;
-        font-size: 0.85em;
+        font-size: 0.8em;
         font-weight: bold;
     }
 
+    /* 左側部門名稱 */
+    .signature-dept {
+        padding-right: 12px;
+        margin-right: 12px;
+        border-right: 2px solid #D5CFC4; /* 中間的分隔線 */
+        white-space: nowrap;
+    }
+
+    /* 右側兩行名字群組 */
+    .signature-authors {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        text-align: left; /* 讓兩行名字靠左對齊 */
+    }
+
+    .author-line {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+    }
+
+    /* 第一行專用：包含日期 */
+    .author-line.has-date {
+        justify-content: space-between;
+    }
+
+    /* 日期樣式：設定大間距，確保超過第二行的長度 */
+    .date-text {
+        margin-left: 50px; 
+        color: #A9A297;
+        font-weight: normal;
+    }
+
+    /* 瀏覽人次標籤 */
     .view-count-badge {
         background-color: #F0F4EF;
         color: #7B8B6F;
@@ -396,7 +433,16 @@
     <!-- 團隊署名與瀏覽人次 -->
     <div class="team-footer">
         <div class="team-signature">
-            台大醫院復健部職能治療技術科 心肺小組製作
+            <div class="signature-dept">台大醫院復健部</div>
+            <div class="signature-authors">
+                <div class="author-line has-date">
+                    <span>江熠嫻 職能治療師 主編</span>
+                    <span class="date-text">2026/8</span>
+                </div>
+                <div class="author-line">
+                    <span>曾資翔/王妍心 職能治療師 協作</span>
+                </div>
+            </div>
         </div>
         <div class="view-count-badge">
             <span>👁️ 瀏覽人次：</span>
@@ -429,33 +475,30 @@
         });
 
         // === 2. Firebase 真實瀏覽次數統計 ===
-        // 🛑 請將下方 firebaseConfig 替換為您在 Firebase 後台取得的設定金鑰
+        // 使用您提供的真實金鑰與資料庫網址
         const firebaseConfig = {
             apiKey: "AIzaSyAbNe4AO1sphy8Pij008da-KP5btiAKpIA",
-  authDomain: "otcardiacpfe.firebaseapp.com",
-  databaseURL: "https://otcardiacpfe-default-rtdb.firebaseio.com", 
-  projectId: "otcardiacpfe",
-  storageBucket: "otcardiacpfe.firebasestorage.app",
-  messagingSenderId: "457722064533",
-  appId: "1:457722064533:web:ba049f048cab841612359c",
-  measurementId: "G-MJYPSYW4ZP"
+            authDomain: "otcardiacpfe.firebaseapp.com",
+            databaseURL: "https://otcardiacpfe-default-rtdb.firebaseio.com",
+            projectId: "otcardiacpfe",
+            storageBucket: "otcardiacpfe.firebasestorage.app",
+            messagingSenderId: "457722064533",
+            appId: "1:457722064533:web:ba049f048cab841612359c",
+            measurementId: "G-MJYPSYW4ZP"
         };
 
         try {
-            // 初始化 Firebase
             const app = initializeApp(firebaseConfig);
             const db = getDatabase(app);
             
-            // 指定資料庫中的節點名稱 (例如：heartcare_page_views)
             const viewsRef = ref(db, 'heartcare_page_views');
 
-            // 執行交易 (Transaction)：讀取目前數字並加 1，確保多人同時瀏覽不會算錯
+            // 執行交易 (Transaction)：讀取目前數字並加 1
             runTransaction(viewsRef, (currentData) => {
                 return (currentData || 0) + 1;
             }).then((result) => {
                 if (result.committed) {
                     const finalCount = result.snapshot.val();
-                    // 將結果顯示在畫面上，並加上千分位逗號
                     document.getElementById("page-view-count").innerText = finalCount.toLocaleString();
                 }
             }).catch((error) => {
@@ -464,7 +507,7 @@
             });
             
         } catch(e) {
-            console.error("Firebase 初始化失敗，請檢查設定金鑰是否正確填寫", e);
+            console.error("Firebase 初始化失敗", e);
             document.getElementById("page-view-count").innerText = "設定未完成";
         }
     });
